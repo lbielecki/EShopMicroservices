@@ -17,6 +17,7 @@ public class DeleteProductEndpoint : ICarterModule
             .WithName("DeleteProduct")
             .Produces<DeleteProductResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Delete Product")
             .WithDescription("Delete Product");
     }
