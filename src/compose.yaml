@@ -23,7 +23,13 @@
       - "5433:5432"
     volumes:
       - postgres_basket:/var/lib/postgresql/data/
-    
+  distributedcache:
+    image: redis
+    container_name: distributedcache
+    restart: always
+    ports:
+      - "6379:6379"
+  
   catalog.api:
     image: catalog.api
     build:
@@ -33,14 +39,18 @@
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=KanekiSama
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/https/aspnetapp.pfx
       - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDB;User Id=postgres;Password=postgres;Include Error Detail=true
     depends_on:
       - catalogdb
     ports:
       - "6000:8080"
       - "6060:8081"
-
-       
+    volumes:
+      - /Users/lbielecki/.aspnet/dev-certs/https:/home/app/https:ro
+        
+        
 volumes:
   postgres_catalog:
   postgres_basket:
