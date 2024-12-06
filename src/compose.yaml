@@ -50,7 +50,30 @@
     volumes:
       - /Users/lbielecki/.aspnet/dev-certs/https:/home/app/https:ro
         
-        
+  basket.api:
+    image: basket.api
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=KanekiSama
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/https/aspnetapp.pfx
+      - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDB;User Id=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Redis=distributedcache:6379
+    depends_on:
+      - basketdb
+      - distributedcache
+    ports:
+      - "6001:8080"
+      - "6061:8081"
+    volumes:
+      - /Users/lbielecki/.aspnet/dev-certs/https:/home/app/https:ro     
+      
 volumes:
   postgres_catalog:
   postgres_basket:
+
+
