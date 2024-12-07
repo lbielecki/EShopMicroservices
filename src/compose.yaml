@@ -72,8 +72,28 @@
     volumes:
       - /Users/lbielecki/.aspnet/dev-certs/https:/home/app/https:ro     
       
+  discount.grpc:
+    image: discount.grpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=KanekiSama
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/home/app/https/aspnetapp.pfx
+      - ConnectionStrings__Database=Data Source=discountdb
+    ports:
+      - "6002:8080"
+      - "6062:8081"
+    volumes:
+      - /Users/lbielecki/.aspnet/dev-certs/https:/home/app/https:ro
+      
 volumes:
   postgres_catalog:
   postgres_basket:
+
+
 
 
