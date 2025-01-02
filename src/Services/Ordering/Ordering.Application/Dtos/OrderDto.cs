@@ -4,7 +4,7 @@ public record OrderDto(
     Guid Id,
     Guid CustomerId,
     string OrderName,
-    AddressDto ShippingAddres,
+    AddressDto ShippingAddress,
     AddressDto BillingAddress,
     PaymentDto Payment,
     OrderStatus Status,
